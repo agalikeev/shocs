@@ -6,8 +6,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-public class DocApplication {
+public class TodoApplication {
   public static void main(String[] args) {
-    SpringApplication.run(DocApplication.class, args);
+    SpringApplication.run(TodoApplication.class, args);
   }
 }

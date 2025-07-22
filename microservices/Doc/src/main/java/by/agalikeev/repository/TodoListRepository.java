@@ -1,9 +1,9 @@
 package by.agalikeev.repository;
 
-import by.agalikeev.entity.Doc;
+import by.agalikeev.entity.TodoList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DocRepository extends JpaRepository<Doc, Long> {
+public interface TodoListRepository extends JpaRepository<TodoList, Long> {
 }

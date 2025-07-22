@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="doc@localhost" uuid="d927d5b1-2a86-4a33-99b8-0632554f5d15">
+    <data-source source="LOCAL" name="shocsdb@localhost" uuid="59ae29d9-a245-46bf-901e-399676de1e77">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/doc</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/shocsdb</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
