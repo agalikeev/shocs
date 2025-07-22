@@ -1,6 +1,6 @@
 package by.agalikeev.service;
 
-import by.agalikeev.dto.UserDTO;
+import by.agalikeev.dto.request.UserDTO;
 import by.agalikeev.entity.User;
 import by.agalikeev.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,5 +1,7 @@
 package by.agalikeev.entity;
 
+import by.agalikeev.constant.TodoRoles;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,8 +25,9 @@ import lombok.Setter;
 public class Permission {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
-  private long id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id", nullable = false, updatable = false)
+  private Long id;
 
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
@@ -33,4 +36,7 @@ public class Permission {
   @ManyToOne
   @JoinColumn(name = "list_id", nullable = false)
   private TodoList todoList;
+
+  @Column(name = "role", nullable = false)
+  private TodoRoles role;
 }

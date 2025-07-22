@@ -1,9 +1,11 @@
 package by.agalikeev.controller;
 
-import by.agalikeev.dto.UserDTO;
+import by.agalikeev.dto.request.UserDTO;
 import by.agalikeev.entity.User;
 import by.agalikeev.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,17 +22,18 @@ public class UserController {
   private final UserService userService;
 
   @PostMapping("/new")
-  public User createUser(@RequestBody UserDTO userDTO) {
-    return userService.createUser(userDTO);
+  public ResponseEntity<User> createUser(@RequestBody UserDTO userDTO) {
+    return ResponseEntity.ok(userService.createUser(userDTO));
   }
 
   @GetMapping("/all")
-  public List<User> getAllUsers() {
-    return userService.getAllUsers();
+  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+  public ResponseEntity<List<User>> getAllUsers() {
+    return ResponseEntity.ok(userService.getAllUsers());
   }
 
-  @GetMapping("/welcome")
-  public String welcome() {
-    return "Hello World! It`s welcome page ";
+  @GetMapping("/me")
+  public ResponseEntity<String> welcome() {
+    return ResponseEntity.ok("Hello World! It`s welcome page ");
   }
 }

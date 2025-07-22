@@ -1,5 +1,6 @@
 package by.agalikeev.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,16 +24,13 @@ import java.security.Timestamp;
 public class TodoPoint {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
-  private long id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id", nullable = false, updatable = false)
+  private Long id;
 
   @ManyToOne
   @JoinColumn(name = "list_id", nullable = false)
   private TodoList todoList;
-
-  private String title;
-
-  private String description;
 
   @ManyToOne
   @JoinColumn(name = "author_id", nullable = false)
@@ -42,9 +40,21 @@ public class TodoPoint {
   @JoinColumn(name = "solver_id", nullable = false)
   private User solver;
 
-  private Timestamp createdAt;
+  @Column(name = "title", nullable = false)
+  private String title;
 
-  private Timestamp updatedAt;
+  @Column(name = "description")
+  private String description;
 
-  private boolean completed;
+  @Column(name = "done")
+  private boolean done;
+
+  @Column(name = "created", nullable = false, updatable = false)
+  private Timestamp created;
+
+  @Column(name = "updated")
+  private Timestamp updated;
+
+  @Column(name = "completed")
+  private Timestamp completed;
 }

@@ -1,4 +1,4 @@
-package by.agalikeev.dto;
+package by.agalikeev.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
