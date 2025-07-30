@@ -1,6 +1,6 @@
 package by.agalikeev.security.jwt;
 
-import by.agalikeev.dto.JwtAuthenticationDTO;
+import by.agalikeev.dto.security.JwtAuthenticationDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;

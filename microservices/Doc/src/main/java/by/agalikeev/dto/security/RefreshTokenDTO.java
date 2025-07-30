@@ -1,4 +1,4 @@
-package by.agalikeev.dto;
+package by.agalikeev.dto.security;
 
 import lombok.Data;
 

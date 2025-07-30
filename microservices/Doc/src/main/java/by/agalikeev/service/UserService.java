@@ -1,10 +1,11 @@
 package by.agalikeev.service;
 
-import by.agalikeev.dto.JwtAuthenticationDTO;
-import by.agalikeev.dto.RefreshTokenDTO;
-import by.agalikeev.dto.UserCredentialDTO;
 import by.agalikeev.dto.request.UserDTO;
+import by.agalikeev.dto.security.JwtAuthenticationDTO;
+import by.agalikeev.dto.security.RefreshTokenDTO;
+import by.agalikeev.dto.security.UserCredentialDTO;
 import by.agalikeev.entity.User;
+import by.agalikeev.mapper.UserMapper;
 import by.agalikeev.repository.UserRepository;
 import by.agalikeev.security.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -25,30 +26,20 @@ public class UserService {
 
   private final JwtService jwtService;
 
+  private final UserMapper userMapper;
+
   public List<User> getAllUsers() {
     return userRepository.findAll();
   }
 
   public User createUser(UserDTO userDTO) {
-//    TODO: перенести в mapper userDTO to User
-    User user = User.builder()
-            .username(userDTO.username())
-            .password(passwordEncoder.encode(userDTO.password()))
-            .email(userDTO.email())
-            .roles(userDTO.roles())
-            .build();
-    return userRepository.save(user);
+    return userRepository.save(userMapper.toUser(userDTO));
   }
 
   private User getByCredentials(UserCredentialDTO userCredentialDTO) throws AuthenticationException {
-    Optional<User> optionalUser = userRepository.findByEmail(userCredentialDTO.getEmail());
-    if (optionalUser.isPresent()) {
-      User user = optionalUser.get();
-      if (passwordEncoder.matches(userCredentialDTO.getPassword(), user.getPassword())) {
-        return user;
-      }
-    }
-    throw new AuthenticationException("Email or password is incorrect");
+    return userRepository.findByEmail(userCredentialDTO.getEmail())
+            .filter(user -> passwordEncoder.matches(userCredentialDTO.getPassword(), user.getPassword()))
+            .orElseThrow(() -> new AuthenticationException("Email or password is incorrect"));
   }
 
   public User getByEmail(String email) throws Exception {
@@ -61,11 +52,16 @@ public class UserService {
   }
 
   public JwtAuthenticationDTO refreshToken(RefreshTokenDTO refreshTokenDTO) throws Exception {
-    String refreshToken = refreshTokenDTO.getRefreshToken();
-    if (refreshToken != null && jwtService.validateToken(refreshToken)) {
-      User user = getByEmail(jwtService.getEmailFromToken(refreshToken));
-      return jwtService.refreshBaseToken(user.getEmail(), refreshToken);
-    }
-    throw new AuthenticationException("Refresh token is incorrect");
+    return Optional.ofNullable(refreshTokenDTO.getRefreshToken())
+            .filter(jwtService::validateToken)
+            .flatMap(refreshToken -> {
+              try {
+                User user = getByEmail(jwtService.getEmailFromToken(refreshToken));
+                return Optional.of(jwtService.refreshBaseToken(user.getEmail(), refreshToken));
+              } catch (Exception e) {
+                throw new RuntimeException("User not found");
+              }
+            })
+            .orElseThrow(() -> new AuthenticationException("Refresh token is incorrect"));
   }
 }

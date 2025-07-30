@@ -1,8 +1,8 @@
 package by.agalikeev.controller;
 
-import by.agalikeev.dto.JwtAuthenticationDTO;
-import by.agalikeev.dto.RefreshTokenDTO;
-import by.agalikeev.dto.UserCredentialDTO;
+import by.agalikeev.dto.security.JwtAuthenticationDTO;
+import by.agalikeev.dto.security.RefreshTokenDTO;
+import by.agalikeev.dto.security.UserCredentialDTO;
 import by.agalikeev.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.websocket.AuthenticationException;
