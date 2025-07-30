@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,5 +36,10 @@ public class UserController {
   @GetMapping("/me")
   public ResponseEntity<String> welcome() {
     return ResponseEntity.ok("Hello World! It`s welcome page ");
+  }
+
+  @GetMapping("/email/{email}")
+  public ResponseEntity<User> getByEmail(@PathVariable String email) throws Exception {
+    return ResponseEntity.ok(userService.getByEmail(email));
   }
 }

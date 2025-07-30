@@ -1,4 +1,4 @@
-package by.agalikeev.config;
+package by.agalikeev.security;
 
 import by.agalikeev.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-public class MyUserDetails implements UserDetails {
+public class CustomUserDetails implements UserDetails {
 
   private final User user;
 
@@ -29,7 +29,7 @@ public class MyUserDetails implements UserDetails {
 
   @Override
   public String getUsername() {
-    return user.getUsername();
+    return user.getEmail();
   }
 
   @Override
