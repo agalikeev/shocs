@@ -1,6 +1,5 @@
 package by.agalikeev.entity;
 
-import by.agalikeev.constant.TodoRoles;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +21,9 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "permission")
+@Table(name = "permission", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"list_id", "user_id"})
+})
 public class Permission {
 
   @Id
@@ -38,5 +40,6 @@ public class Permission {
   private TodoList todoList;
 
   @Column(name = "role", nullable = false)
-  private TodoRoles role;
+  private Integer permissionLevel;  // 1 - admin, 2 - editor, 3 - reader, 4 - undefined
+
 }

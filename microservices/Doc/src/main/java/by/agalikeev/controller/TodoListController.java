@@ -36,7 +36,7 @@ public class TodoListController {
 
   @PostMapping
   public ResponseEntity<TodoList> create(@RequestBody TodoListCreateRequest request) {
-    return ResponseEntity.ok(todoListService.save(request));
+    return ResponseEntity.ok(todoListService.create(request));
   }
 
   @PutMapping
@@ -45,8 +45,7 @@ public class TodoListController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable Long id) {
-    todoListService.deleteById(id);
-    return ResponseEntity.noContent().build();
+  public ResponseEntity<String> delete(@PathVariable Long id) {
+    return ResponseEntity.ok(todoListService.deleteById(id));
   }
 }

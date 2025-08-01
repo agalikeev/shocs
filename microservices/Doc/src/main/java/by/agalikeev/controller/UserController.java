@@ -44,7 +44,7 @@ public class UserController {
 
   @GetMapping("/me")
   public ResponseEntity<UserDto> getMe() {
-    return ResponseEntity.ok(userService.getUser());
+    return ResponseEntity.ok(userService.getUserDto());
   }
 
   @ExceptionHandler(UserNotFoundException.class)

@@ -41,7 +41,7 @@ public class UserService {
     return userRepository.save(userMapper.toUser(userRequest));
   }
 
-  public UserDto getUser() {
+  public UserDto getUserDto() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     CustomUserDetails details = (CustomUserDetails) authentication.getPrincipal();
     User user = details.getUser();
@@ -76,5 +76,11 @@ public class UserService {
               }
             })
             .orElseThrow(() -> new AuthenticationException("Refresh token is incorrect"));
+  }
+
+  public User getUser() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    CustomUserDetails details = (CustomUserDetails) authentication.getPrincipal();
+    return details.getUser();
   }
 }
