@@ -39,7 +39,7 @@ public class TodoPoint extends BaseEntity {
   private User author;
 
   @ManyToOne
-  @JoinColumn(name = "solver_id", nullable = false)
+  @JoinColumn(name = "solver_id")
   private User solver;
 
   @Column(name = "title", nullable = false)

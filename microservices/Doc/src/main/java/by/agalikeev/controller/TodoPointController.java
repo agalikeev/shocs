@@ -3,6 +3,7 @@ package by.agalikeev.controller;
 import by.agalikeev.dto.request.TodoPointRequest;
 import by.agalikeev.entity.TodoPoint;
 import by.agalikeev.service.TodoPointService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,12 +33,12 @@ public class TodoPointController {
   }
 
   @PostMapping
-  public TodoPoint create(@RequestBody TodoPointRequest todoPointRequest) {
+  public TodoPoint create(@RequestBody @Valid TodoPointRequest todoPointRequest) {
     return todoPointService.save(todoPointRequest);
   }
 
   @PutMapping
-  public TodoPoint update(@RequestBody TodoPoint todoPoint) {
+  public TodoPoint update(@RequestBody @Valid TodoPoint todoPoint) {
     return todoPointService.update(todoPoint);
   }
 

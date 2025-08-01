@@ -4,6 +4,7 @@ import by.agalikeev.dto.request.TodoListCreateRequest;
 import by.agalikeev.dto.request.TodoListUpdateRequest;
 import by.agalikeev.entity.TodoList;
 import by.agalikeev.service.TodoListService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,12 +36,12 @@ public class TodoListController {
   }
 
   @PostMapping
-  public ResponseEntity<TodoList> create(@RequestBody TodoListCreateRequest request) {
+  public ResponseEntity<TodoList> create(@RequestBody @Valid TodoListCreateRequest request) {
     return ResponseEntity.ok(todoListService.create(request));
   }
 
   @PutMapping
-  public ResponseEntity<TodoList> update(@RequestBody TodoListUpdateRequest request) {
+  public ResponseEntity<TodoList> update(@RequestBody @Valid TodoListUpdateRequest request) {
     return ResponseEntity.ok(todoListService.update(request));
   }
 
