@@ -7,21 +7,25 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
-import java.util.Date;
+import java.time.Instant;
 
 @Entity
+@Table(name = "todo_list")
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TodoList {
+public class TodoList extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,12 +45,18 @@ public class TodoList {
   @Column(name = "done")
   private boolean done;
 
-  @Column(name = "created", nullable = false, updatable = false)
-  private Date created;
-
-  @Column(name = "updated")
-  private Date updated;
-
   @Column(name = "completed")
-  private Date completed;
+  private Instant completed;
+
+  @PrePersist
+  @Override
+  public void onCreate() {
+    super.onCreate();
+  }
+
+  @PreUpdate
+  @Override
+  public void onUpdate() {
+    super.onUpdate();
+  }
 }

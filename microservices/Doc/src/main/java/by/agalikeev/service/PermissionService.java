@@ -29,6 +29,7 @@ public class PermissionService {
 
   private Integer getPermissionLevel(TodoList todoList) {
     return permissionRepository.findByTodoListAndUser(todoList, userService.getUser())
+            .map(Permission::getPermissionLevel)
             .orElse(4);
   }
 }

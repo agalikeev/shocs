@@ -10,5 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface PermissionRepository extends JpaRepository<Permission, Long> {
-  Optional<Integer> findByTodoListAndUser(TodoList tl, User user);
+
+  Optional<Permission> findByTodoListAndUser(TodoList tl, User user);
+
+  void deleteAllByTodoList(TodoList tl);
 }
