@@ -1,15 +1,20 @@
 package by.agalikeev.service;
 
-import by.agalikeev.dto.request.UserDTO;
+import by.agalikeev.dto.request.UserRequest;
+import by.agalikeev.dto.response.UserDto;
 import by.agalikeev.dto.security.JwtAuthenticationDTO;
 import by.agalikeev.dto.security.RefreshTokenDTO;
 import by.agalikeev.dto.security.UserCredentialDTO;
 import by.agalikeev.entity.User;
 import by.agalikeev.mapper.UserMapper;
 import by.agalikeev.repository.UserRepository;
+import by.agalikeev.security.CustomUserDetails;
 import by.agalikeev.security.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.websocket.AuthenticationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +37,15 @@ public class UserService {
     return userRepository.findAll();
   }
 
-  public User createUser(UserDTO userDTO) {
-    return userRepository.save(userMapper.toUser(userDTO));
+  public User createUser(UserRequest userRequest) {
+    return userRepository.save(userMapper.toUser(userRequest));
+  }
+
+  public UserDto getUser() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    CustomUserDetails details = (CustomUserDetails) authentication.getPrincipal();
+    User user = details.getUser();
+    return userMapper.toUserDto(getByEmail(user.getEmail()));
   }
 
   private User getByCredentials(UserCredentialDTO userCredentialDTO) throws AuthenticationException {
@@ -42,8 +54,9 @@ public class UserService {
             .orElseThrow(() -> new AuthenticationException("Email or password is incorrect"));
   }
 
-  public User getByEmail(String email) throws Exception {
-    return userRepository.findByEmail(email).orElseThrow(() -> new Exception(String.format("User with email %s not found", email)));
+  public User getByEmail(String email) {
+    return userRepository.findByEmail(email)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
   }
 
   public JwtAuthenticationDTO signIn(UserCredentialDTO userCredentialDTO) throws AuthenticationException {

@@ -1,6 +1,6 @@
 package by.agalikeev.controller;
 
-import by.agalikeev.dto.request.TodoPointDTO;
+import by.agalikeev.dto.request.TodoPointRequest;
 import by.agalikeev.entity.TodoPoint;
 import by.agalikeev.service.TodoPointService;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +32,8 @@ public class TodoPointController {
   }
 
   @PostMapping
-  public TodoPoint create(@RequestBody TodoPointDTO todoPointDTO) {
-    return todoPointService.save(todoPointDTO);
+  public TodoPoint create(@RequestBody TodoPointRequest todoPointRequest) {
+    return todoPointService.save(todoPointRequest);
   }
 
   @PutMapping

@@ -98,7 +98,7 @@ public class JwtService {
       byte[] keyBytes = Decoders.BASE64.decode(jwtSecret);
       return Keys.hmacShaKeyFor(keyBytes);
     } catch (IllegalArgumentException e) {
-      LOGGER.error("Invalid JWT secret: " + e.getMessage());
+      LOGGER.error("Invalid JWT secret: {}", e.getMessage());
       throw new JwtException("JWT secret configuration error");
     }
   }

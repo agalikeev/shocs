@@ -1,11 +1,15 @@
 package by.agalikeev.controller;
 
-import by.agalikeev.dto.request.UserDTO;
+import by.agalikeev.dto.request.UserRequest;
+import by.agalikeev.dto.response.UserDto;
 import by.agalikeev.entity.User;
+import by.agalikeev.exception.notfound.UserNotFoundException;
 import by.agalikeev.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +27,8 @@ public class UserController {
   private final UserService userService;
 
   @PostMapping("/new")
-  public ResponseEntity<User> createUser(@RequestBody UserDTO userDTO) {
-    return ResponseEntity.ok(userService.createUser(userDTO));
+  public ResponseEntity<User> createUser(@RequestBody UserRequest userRequest) {
+    return ResponseEntity.ok(userService.createUser(userRequest));
   }
 
   @GetMapping("/all")
@@ -33,13 +37,19 @@ public class UserController {
     return ResponseEntity.ok(userService.getAllUsers());
   }
 
-  @GetMapping("/me")
-  public ResponseEntity<String> welcome() {
-    return ResponseEntity.ok("Hello World! It`s welcome page ");
+  @GetMapping("/email/{email}")
+  public ResponseEntity<User> getByEmail(@PathVariable String email) {
+    return ResponseEntity.ok(userService.getByEmail(email));
   }
 
-  @GetMapping("/email/{email}")
-  public ResponseEntity<User> getByEmail(@PathVariable String email) throws Exception {
-    return ResponseEntity.ok(userService.getByEmail(email));
+  @GetMapping("/me")
+  public ResponseEntity<UserDto> getMe() {
+    return ResponseEntity.ok(userService.getUser());
+  }
+
+  @ExceptionHandler(UserNotFoundException.class)
+  public ResponseEntity<UserNotFoundException> handleEntityNotFound(UserNotFoundException ex) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body(new UserNotFoundException(ex.getMessage()));
   }
 }

@@ -1,6 +1,6 @@
 package by.agalikeev.service;
 
-import by.agalikeev.dto.request.TodoPointDTO;
+import by.agalikeev.dto.request.TodoPointRequest;
 import by.agalikeev.entity.TodoPoint;
 import by.agalikeev.repository.TodoPointRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +24,11 @@ public class TodoPointService {
     return todoPointRepository.findById(id).orElse(null);
   }
 
-  public TodoPoint save(TodoPointDTO todoPointDTO) {
+  public TodoPoint save(TodoPointRequest todoPointRequest) {
     TodoPoint todoPoint = TodoPoint.builder()
-            .title(todoPointDTO.title())
-            .description(todoPointDTO.description())
-            .todoList(todoListService.findById(todoPointDTO.list_id()))
+            .title(todoPointRequest.title())
+            .description(todoPointRequest.description())
+            .todoList(todoListService.findById(todoPointRequest.list_id()))
             .build();
     return todoPointRepository.save(todoPoint);
   }
