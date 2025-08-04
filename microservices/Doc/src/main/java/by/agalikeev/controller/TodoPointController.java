@@ -22,6 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/todo/list/{listId}/point")
 public class TodoPointController {
+
   private final TodoPointService todoPointService;
 
   @GetMapping
