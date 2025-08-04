@@ -31,7 +31,7 @@ public class TodoPoint extends BaseEntity {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "list_id", nullable = false)
+  @JoinColumn(name = "listId", nullable = false)
   private TodoList todoList;
 
   @ManyToOne

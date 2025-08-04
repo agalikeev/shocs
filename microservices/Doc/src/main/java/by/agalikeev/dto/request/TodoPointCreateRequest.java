@@ -5,10 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record TodoPointRequest(
+public record TodoPointCreateRequest(
         @NotNull @JsonProperty("title") String title,
-        @JsonProperty("description") String description,
-        @JsonProperty("done") String done,
-        @NotNull @JsonProperty("list_id") Long list_id
+        @JsonProperty("description") String description
 ) {
 }

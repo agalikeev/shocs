@@ -24,7 +24,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "permission", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"list_id", "user_id"})
+        @UniqueConstraint(columnNames = {"listId", "user_id"})
 })
 public class Permission extends BaseEntity {
 
@@ -38,7 +38,7 @@ public class Permission extends BaseEntity {
   private User user;
 
   @ManyToOne
-  @JoinColumn(name = "list_id", nullable = false)
+  @JoinColumn(name = "listId", nullable = false)
   private TodoList todoList;
 
   @Column(name = "role", nullable = false)
