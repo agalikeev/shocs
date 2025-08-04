@@ -27,16 +27,18 @@ public class TodoListService {
 
   private final UserService userService;
 
+  @Transactional(readOnly = true)
   public List<TodoList> findAll() {
     return todoListRepository.findAll();
   }
 
+  @Transactional(readOnly = true)
   public TodoList findById(Long id) {
     return todoListRepository.findById(id)
             .filter(todoList -> permissionService.hasPermission(todoList, 3))
             .orElseThrow(() -> new TodoListNotFoundException(id));
   }
-
+  @Transactional
   public TodoList create(TodoListCreateRequest request) {
     TodoList todoList = todoListMapper.createTodoList(request);
     todoListRepository.save(todoList);
@@ -44,6 +46,7 @@ public class TodoListService {
     return todoList;
   }
 
+  @Transactional
   public TodoList update(TodoListUpdateRequest request) {
     return todoListRepository.findById(request.id())
             .filter(todoList -> permissionService.hasPermission(todoList, 2))

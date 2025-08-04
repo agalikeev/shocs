@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +42,7 @@ public class UserService {
     return userRepository.save(userMapper.toUser(userRequest));
   }
 
+  @Transactional
   public UserDto getUserDto() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     CustomUserDetails details = (CustomUserDetails) authentication.getPrincipal();
@@ -54,6 +56,7 @@ public class UserService {
             .orElseThrow(() -> new AuthenticationException("Email or password is incorrect"));
   }
 
+  @Transactional(readOnly = true)
   public User getByEmail(String email) {
     return userRepository.findByEmail(email)
             .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
@@ -64,6 +67,7 @@ public class UserService {
     return jwtService.generateAuthToken(user.getEmail());
   }
 
+  @Transactional
   public JwtAuthenticationDTO refreshToken(RefreshTokenDTO refreshTokenDTO) throws Exception {
     return Optional.ofNullable(refreshTokenDTO.getRefreshToken())
             .filter(jwtService::validateToken)

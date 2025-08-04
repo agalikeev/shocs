@@ -7,6 +7,7 @@ import by.agalikeev.mapper.PermissionMapper;
 import by.agalikeev.repository.PermissionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +19,7 @@ public class PermissionService {
 
   private final PermissionMapper permissionMapper;
 
+  @Transactional
   public void addPermission(TodoList todoList, User user, Integer permissionLevel) {
     Permission permission = permissionMapper.toPermission(todoList, user, permissionLevel);
     permissionRepository.save(permission);
